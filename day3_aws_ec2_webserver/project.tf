@@ -6,6 +6,7 @@ resource "aws_instance" "myweb" {
 
 	ami = "ami-001843b876406202a"
 	instance_type = "t2.micro"
+	availability_zone = "ap-south-1a"
 	key_name = "tf_test"	
 	tags = {
 		Name = "SKS web server"
@@ -39,11 +40,11 @@ resource "null_resource" "nullremote1" {
 	provisioner "remote-exec" {
 	
 		inline = [
-			"sudo mkfs -t xfs	/dev/xvdb",
+			"sudo mkfs -t xfs /dev/xvdb",
 			"sudo yum install httpd -y",
 			"sudo mount /dev/xvdb /var/www/html/",
 			"sudo chown -R ec2-user /var/www/html",
-			"sudo bash -c echo 'hello sonamwa' > /var/www/html/index.html",
+			"echo '<h1>hello sonamwa</h1>' > /var/www/html/index.html",
 			"sudo systemctl restart httpd"
 			]
 		}
